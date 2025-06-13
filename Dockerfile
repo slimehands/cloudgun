@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN pnpm install
+RUN npm install
 
 # Expose the port
 EXPOSE 8765
