@@ -8,10 +8,10 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN bun install
+RUN pnpm install
 
 # Expose the port
 EXPOSE 8765
 
 # Run the server
-CMD ["bun", "server.js"]
+CMD ["node", "server.js"]
