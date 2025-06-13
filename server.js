@@ -1,19 +1,33 @@
 import { Hono } from 'hono';
-import { serve } from 'bun';
+import { createServer } from 'http';
 import Gun from 'gun';
 
 // Create a Hono app
 const app = new Hono();
 
-// Optional: a root route
-app.get('/', (c) => c.text('GUN server is running.'));
+app.get('/', (c) => c.text('Hono + GUN server is running.'));
 
-// Start HTTP server manually with Bun
-const server = serve({
-  port: parseInt(process.env.PORT || '8765'),
-  fetch: app.fetch,
+// Create a fetch handler from Hono
+const fetchHandler = app.fetch;
+
+// Adapter: convert fetch requests into Node-style
+const server = createServer(async (req, res) => {
+  const url = new URL(req.url || '', `http://${req.headers.host}`);
+  const request = new Request(url, {
+    method: req.method,
+    headers: req.headers,
+    body: req.method !== 'GET' && req.method !== 'HEAD' ? req : null,
+  });
+
+  const response = await fetchHandler(request);
+  res.writeHead(response.status, Object.fromEntries(response.headers.entries()));
+  res.end(await response.text());
 });
 
-// Attach GUN to Bun's server
+// Attach GUN
 Gun({ web: server, file: 'data' });
-console.log('GUN server running at http://localhost:8765');
+
+const PORT = process.env.PORT || 8765;
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

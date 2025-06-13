@@ -2,5 +2,26 @@
   "dependencies": {
     "gun": "^0.2020.1240",
     "hono": "^4.7.11"
-  }
+  },
+  "name": "cloudgun",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slimehands/cloudgun.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/slimehands/cloudgun/issues"
+  },
+  "homepage": "https://github.com/slimehands/cloudgun#readme"
+  
 }
